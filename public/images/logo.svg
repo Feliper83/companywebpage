@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<svg xmlns="http://www.w3.org/2000/svg" width="170px" height="54px" viewBox="0 0 170 54">
+  <rect width="100%" height="100%" fill="black"/>
+  <text x="55" y="40" font-family="Arial" font-size="20" fill="white">CYBEVITE</text>
+  <text x="55" y="58" font-family="Arial" font-size="10" fill="white">TECHNOLOGY</text>
+  <path d="M10,10 L30,10 L35,20 L30,30 L10,30 L5,20 Z M12,18 L18,22 M18,22 L24,18" stroke="cyan" fill="none" stroke-width="2" stroke-linecap="round"/>
+</svg>
