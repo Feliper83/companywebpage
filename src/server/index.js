@@ -10,7 +10,6 @@ import benefitsRoutes from './routes/benefitRoutes.js'
 import jobsRoutes from './routes/jobRoutes.js'
 import jobApplicationRoutes from './routes/jobApplicationRoutes.js'
 import companyRoutes from './routes/companyRoutes.js'
-import serverless from "serverless-http";
 
 const app = express()
 app.use(cors())
@@ -27,5 +26,4 @@ app.use('/api/jobs', jobsRoutes)
 app.use('/api/apply', jobApplicationRoutes)
 app.use('/api/company', companyRoutes)
 
-//app.listen(3001, () => console.log(`Server running on port 3001`))
-export default serverless(app);
+app.listen(3001, () => console.log(`Server running on port 3001`))
