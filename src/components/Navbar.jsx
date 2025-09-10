@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import logo from '/public/images/logo.jpeg';
+import logo from '/public/images/logo_blue.png';
 import { useTranslation } from "react-i18next";
 import "../i18n"; // importante para inicializar
 import { useLanguage } from  "../pages/LanguageProvider.jsx"
@@ -18,12 +18,12 @@ export default function Navbar() {
 
     return (
         <nav className="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
-            <div className="container">
+            <div className="container-fluid ps-7">
                 <img
                     src={logo}
                     alt="Cybevite logo"
-                    width={200}
-                    height={80}
+                    width={300}
+                    height={100}
                     style={{ objectFit: "contain" }}
                 />
 
@@ -61,6 +61,7 @@ export default function Navbar() {
                     </select>
 
                     <span className="nav-item ms-3">
+                    {/*
                         <span className="fa-stack">
                             <a href={socialLinks.facebook} target="_blank" rel="noreferrer">
                                 <i className="fas fa-circle fa-stack-2x"></i>
@@ -79,6 +80,7 @@ export default function Navbar() {
                                 <i className="fab fa-instagram fa-stack-1x text-white"></i>
                             </a>
                         </span>
+                         */}
                         <span className="fa-stack">
                             <a href={socialLinks.linkedin} target="_blank" rel="noreferrer">
                                 <i className="fas fa-circle fa-stack-2x"></i>

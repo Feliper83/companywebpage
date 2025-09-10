@@ -4,6 +4,7 @@ import {Image} from "react-bootstrap";
 import {useTranslation} from "react-i18next";
 import {useLanguage} from "../pages/LanguageProvider.jsx";
 import {useNavigate} from "react-router-dom";
+import '../js/globalscript.js';
 
 
 export default function Solutions() {
@@ -44,53 +45,68 @@ export default function Solutions() {
     const handleClick = (title, description, image) => {
         navigate("/solution", {
             state: {
-                titulo: title,
-                contenido: description,
-                imagen: image
+                title: title,
+                description: description,
+                image: image
             },
         });
     };
 
     return (
-        <div id="solutions" className="solutions my-5">
+        <div id="solutions" className="my-5">
             <div className="container">
-                <div className="row mb-4 text-center">
-                    <div className="col-md-8 offset-md-2">
-                        <h5>
-                          <span className="badge bg-primary rounded-0 text-uppercase">
-                              {section.title}
-                          </span>
-                        </h5>
-                        <h2 className="fw-bold">
-                            {section.description}
-                        </h2>
-                    </div>
+                <div className="row">
+                    <h2 className="fw-bold mb-3 text-primary text-uppercase" style={{textAlign: "center"}}>
+                        {section.title}
+                    </h2>
+                    <h2 className="text-justify fs-5 parrafo">
+                        <p className="fs-5 lh-lg text-muted" style={{textAlign: "justify"}}>
+                            {section?.description}
+                        </p>
+                    </h2>
                 </div>
                 <div className="row">
                     {services.map((service) => {
                         return (
 
                             <div className="col-md-6 mb-4" key={service.id}>
-                                <div className="card bg-secondary h-100">
+                                <div
+                                     className="card h-100 shadow-lg border-0"
+                                     style={{
+                                         backgroundColor: "#1e1e1e",
+                                         color: "white",
+                                         borderRadius: "12px",
+                                         overflow: "hidden",
+                                     }}
+                                >
                                     <Image
                                         src={service.service?.icon_path}
                                         alt=""
                                         className="card-img-top"
                                         width={600} // set the width you want
                                         height={300} // set the height you want
-                                        style={{objectFit: 'cover'}}
+                                        style={{objectFit: 'inherit'}}
                                     />
 
 
                                     <div className="card-body d-flex flex-column">
                                         <h5 className="card-title fw-bold">{service.name}</h5>
-                                        <p className="card-text flex-grow-1">{service.summary}</p>
+
+                                        <p className="card-text flex-grow-1 text-muted" style={{textAlign: "justify"}} >
+                                            {
+
+                                                service.summary.length > 180
+                                                ? service.summary.substring(0, 180) + "..."
+                                                : service.summary
+
+                                            }
+                                        </p>
                                         <div className="badge bg-primary p-2 text-uppercase align-self-start">
                                             {service.slug}
                                         </div>
                                     </div>
-                                    <button className="btn btn-primary"
-                                            onClick={() => handleClick(service.name, service.description, service.image)}>
+                                    <button className="btn btn-outline-primary"
+                                            onClick={() => handleClick(service.name, service.details, service.image)}>
                                         Ver
                                     </button>
 

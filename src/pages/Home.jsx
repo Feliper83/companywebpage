@@ -40,7 +40,7 @@ export default function Home() {
     useEffect(() => {
         if (company && company.name) {
             document.title = company.name;
-            console.log("Document title set:", company.name);
+            console.log("Document title set:"+ company.name);
         }
     }, [company]);
 
@@ -64,15 +64,15 @@ export default function Home() {
                 <img
                     src="/images/vertical-decoration-left.svg"
                     alt="Service image"
-                    width={600}
-                    height={300}
+                    width={300}
+                    height={500}
                     style={{ objectFit: "contain" }}
                 />
 
                 <div className="container">
                     <div className="row">
                         <div className="col-md-6 pt-5">
-                            <h1 className="xl-text mt-5">
+                            <h1 className="mt-5">
                                 {t("title")}
                                 <span className="text-primary fw-bold replace-me ps-3">
                                   {t("subtitle")}
