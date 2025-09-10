@@ -1,9 +1,7 @@
-
 import React, { useState, useEffect } from "react";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 import { useLanguage } from "../pages/LanguageProvider.jsx";
-import {useNavigate} from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 
 export default function CybeBlogs() {
     const [blogs, setBlogs] = useState([]);
@@ -28,68 +26,94 @@ export default function CybeBlogs() {
         fetchBlogs();
     }, [language, i18n.language]);
 
-
     const handleClick = (title, description, image) => {
         navigate("/blog", {
             state: {
                 titulo: title,
                 contenido: description,
                 imagen: image,
-                autor: "Felipe",
-                fecha: "03/06/1983",
+                autor: "Jose",
+                fecha: "08/09/2025",
             },
         });
     };
 
     return (
-        <div className="container my-5">
-            <h2 className="text-center mb-4"> {lang === "es" ? "Nuestros Blogs" : "Our Blogs"}</h2>
-            <div className="row g-4">
-                {blogs.length > 0 ? (
-                    blogs.map((blog) => {
-                        const image =
-                            blog.blog_post?.images?.[0]?.image_path || null;
+        <div className="container my-5 text-white">
 
-                        const title =
-                            blog.title ||
-                            blog.blog_post?.translations?.find(t => t.lang_code === 'es')?.title ||
-                            "Sin título";
+                <h2 className="fw-bold mb-3 text-primary text-lg-center text-uppercase">
+                    {lang === "es" ? "Nuestros Blogs" : "Our Blogs"}
+                </h2>
 
-                        const description = blog.content || "";
+                <div className="row g-4">
+                    {blogs.length > 0 ? (
+                        blogs.map((blog, idx) => {
+                            const image =
+                                blog.blog_post?.images?.[0]?.image_path || null;
 
-                        return (
+                            const title =
+                                blog.title ||
+                                blog.blog_post?.translations?.find(
+                                    (t) => t.lang_code === lang
+                                )?.title ||
+                                "Sin título";
 
-                            <div className="col-12 col-md-6 col-lg-4 mb-4">
-                                <div className="card h-100 shadow-sm">
-                                    {image && (
-                                        <img
-                                            src={image}
-                                            className="card-img-top"
-                                            alt={title}
-                                            style={{
-                                                height: "200px",
-                                                objectFit: "cover",
-                                            }}
-                                        />
-                                    )}
-                                    <div className="card-body d-flex flex-column">
-                                        <h5 className="card-title">{title}</h5>
-                                        <p className="card-text text-muted flex-grow-1">
-                                            {description}
-                                        </p>
-                                        <button className="btn btn-primary" onClick={() => handleClick(title,description,image)}>
-                                            {t("blogs.lookArticle")}
-                                        </button>
+                            const description = blog.content || "";
+
+                            return (
+                                <div className="col-12 col-md-6 col-lg-4" key={idx}>
+                                    <div
+                                        className="card h-100 shadow-lg border-0"
+                                        style={{
+                                            backgroundColor: "#1e1e1e",
+                                            color: "white",
+                                            borderRadius: "12px",
+                                            overflow: "hidden",
+                                        }}
+                                    >
+                                        {image && (
+                                            <img
+                                                src={image}
+                                                className="card-img-top"
+                                                alt={title}
+                                                style={{
+                                                    height: "200px",
+                                                    objectFit: "cover",
+                                                }}
+                                            />
+                                        )}
+                                        <div className="card-body d-flex flex-column">
+                                            <h5 className="card-title fw-bold">
+                                                {title}
+                                            </h5>
+                                            <p className="card-text text-white-50 flex-grow-1">
+                                                {description.length > 180
+                                                    ? description.substring(0, 180) + "..."
+                                                    : description}
+                                            </p>
+                                            <button
+                                                className="btn btn-outline-primary mt-3"
+                                                onClick={() =>
+                                                    handleClick(
+                                                        title,
+                                                        description,
+                                                        image
+                                                    )
+                                                }
+                                            >
+                                                {t("blogs.lookArticle")}
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-
-                        );
-                    })
-                ) : (
-                    <p className="text-center">{t("blogs.notAvailable")}</p>
-                )}
-            </div>
+                            );
+                        })
+                    ) : (
+                        <p className="text-center text-muted">
+                            {t("blogs.notAvailable")}
+                        </p>
+                    )}
+                </div>
         </div>
-    );
+);
 }

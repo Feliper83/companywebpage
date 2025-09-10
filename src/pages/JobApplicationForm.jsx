@@ -56,7 +56,8 @@ export default function JobApplicationForm() {
 
     return (
         <div className="container mt-5">
-            <h2 className="mb-4 text-center">Job Application Form</h2>
+
+            <h2 className="fw-bold mb-3 text-primary text-lg-center text-uppercase">Job Application Form</h2>
 
             <form
                 onSubmit={handleSubmit}
@@ -142,7 +143,7 @@ export default function JobApplicationForm() {
                     type="submit"
                     label="Submit Application"
                     icon="pi pi-send"
-                    className="btn btn-primary mt-auto w-100"
+                    className="btn btn-outline-primary mt-auto w-100"
                 />
             </form>
         </div>

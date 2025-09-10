@@ -47,44 +47,58 @@ export default function CareerGrowth() {
         <div className="career-growth container my-5">
             {/* Introducción */}
             <section className="text-center mb-5">
-                <h2 className="fw-bold mb-3 text-primary">{t("career.title")}</h2>
-                <p className="lead">
-                    {t("career.description")}
-                </p>
+
+                    <h2 className="fw-bold mb-3 text-primary text-uppercase">{t("career.title")}</h2>
+                    <p className="lead text-muted">
+                        {t("career.description")}
+                    </p>
             </section>
 
             {/* Ofertas laborales */}
             <section className="mb-5">
-                <h3 className="fw-semibold mb-4">{t("jobs.title")}</h3>
-                <div className="row g-4">
-                    {Array.isArray(jobs) && jobs.map((job, index) => (
-                        <div key={index} className="col-md-4">
-                            <div className="card h-100 shadow-sm">
+                <h4 className="fw-bold mb-3 text-primary text-md-center text-uppercase">{t("jobs.title")}</h4>
 
-                                <img src={job.job.image} className="card-img-top" alt={job.title} />
-                                <div className="card-body">
-                                    <h4 className="text-muted">{job.title}</h4>
-                                    <p className="text-muted mb-1">{job.location}</p>
-                                    <p className="text-muted">{job.experience}</p>
-                                    <ul className="card-text text-muted flex-grow-1">
-                                        {job.job.skills?.map((skill, idx) => (
-                                            <li key={idx}>{skill}</li>
-                                        ))}
-                                    </ul>
-                                    <button
-                                        className="btn btn-primary mt-auto"
-                                        type="button"
-                                        onClick={() => handleApply(job)}
-                                    >
-                                        {t("jobs.applyPosition")}
-                                    </button>
-
+                    <div className="row g-4">
+                        {Array.isArray(jobs) && jobs.map((job, index) => (
+                            <div key={index} className="col-md-4">
+                                <div
+                                    className="card h-100 shadow-lg border-0"
+                                    style={{
+                                        backgroundColor: "#1e1e1e",
+                                        color: "white",
+                                        borderRadius: "12px",
+                                        overflow: "hidden",
+                                    }}
+                                >
+                                    <img
+                                        src={job.job.image}
+                                        className="card-img-top"
+                                        alt={job.title}
+                                        style={{objectFit: "cover", height: "200px"}}
+                                    />
+                                    <div className="card-body d-flex flex-column">
+                                        <h4 className="fw-bold">{job.title}</h4>
+                                        <p className="mb-1">{job.location}</p>
+                                        <p className="text-muted">{job.experience}</p>
+                                        <ul className="card-text flex-grow-1 text-muted">
+                                            {job.job.skills?.map((skill, idx) => (
+                                                <li key={idx}>{skill}</li>
+                                            ))}
+                                        </ul>
+                                        <button
+                                            className="btn btn-outline-primary mt-auto"
+                                            type="button"
+                                            onClick={() => handleApply(job)}
+                                        >
+                                            {t("jobs.applyPosition")}
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
-                </div>
+                        ))}
+                    </div>
             </section>
+
 
             {/* Beneficios */}
             <section>
@@ -96,7 +110,7 @@ export default function CareerGrowth() {
                                     src="/images/team-member-4.jpg"
                                     className="img-fluid h-100 w-100"
                                     alt="Miembro del Dream Team"
-                                    style={{ objectFit: "cover", height: "100%" }}
+                                    style={{objectFit: "cover", height: "100%"}}
                                 />
                             </div>
                             <div className="col-md-8">

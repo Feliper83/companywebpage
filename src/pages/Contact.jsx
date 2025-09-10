@@ -42,12 +42,14 @@ export default function Contact() {
 
     return (
         <div className="p-6">
-            <div className="flex justify-center">
-                <h1 className="text-center">{t("contact.title")}</h1>
-            </div>
 
-                {/* Formulario */}
-                <form onSubmit={handleSubmit} className="flex flex-column gap-3 mb-6">
+            <h2 className="fw-bold mb-3 text-primary text-lg-center text-uppercase">
+                {t("contact.title")}
+            </h2>
+
+
+            {/* Formulario */}
+            <form onSubmit={handleSubmit} className="flex flex-column gap-3 mb-6">
                     <div className="form-group">
                         <input
                             type="text"
@@ -93,7 +95,7 @@ export default function Contact() {
                     <div className="form-group">
                         <button
                             type="submit"
-                            className="form-control flex align-content-end btn btn-primary btn-sm"
+                            className="form-control flex align-content-end btn btn-outline-primary btn-sm"
                         >
                             {t("contact.button_title")}
                         </button>

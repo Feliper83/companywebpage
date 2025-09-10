@@ -1,5 +1,7 @@
 import {useLocation, useNavigate } from "react-router-dom";
-
+import { Card } from "primereact/card";
+import { Tag } from "primereact/tag";
+import ReactMarkdown from "react-markdown";
 
 export default function BlogContent() {
     const { state } = useLocation();
@@ -9,7 +11,7 @@ export default function BlogContent() {
         return (
             <div className="container">
                 <p>No se encontró el contenido del blog.</p>
-                <button className="btn btn-secondary" onClick={() => navigate("/")}>
+                <button className="btn btn-primary" onClick={() => navigate("/")}>
                     Volver
                 </button>
             </div>
@@ -18,8 +20,32 @@ export default function BlogContent() {
 
     const { titulo, contenido, imagen, autor, fecha } = state;
 
+    const header = imagen ? (
+        <img
+            alt={titulo}
+            src={imagen}
+            style={{ objectFit: "cover", width: "100%", height: "250px" }}
+        />
+    ) : null;
+
+    const footer = (
+        <div className="d-flex justify-content-between align-items-center mt-3 text-white-50">
+            <div>
+                {autor && <span>✍️ {autor}</span>}
+                {fecha && <span> • {new Date(fecha).toLocaleDateString()}</span>}
+            </div>
+            <button
+                className="btn btn-primary"
+                onClick={() => navigate("/blogs")}
+            >
+                ← Volver a blogs
+            </button>
+        </div>
+    );
+
+
     return (
-        <div >
+        <div className="container py-5 bg-dark min-vh-100 text-white text-justify">
             {imagen && (
                 <img
                     src={imagen}
@@ -29,17 +55,32 @@ export default function BlogContent() {
                 />
             )}
 
-            <div className="card-body">
-                <h2 className="card-title">{titulo}</h2>
-                <p className="card-text">{contenido}</p>
-                <div className="text-muted small">
-                    {autor && <span>Por {autor}</span>}
-                    {fecha && <span> • {new Date(fecha).toLocaleDateString()}</span>}
+
+            <Card
+                title={titulo}
+                subTitle="Artículo del blog"
+                header={header}
+                footer={footer}
+                className="shadow-lg border-0"
+                style={{ backgroundColor: "#1a1a1a", color: "white" }}
+            >
+                {/* Renderiza contenido con markdown con estilo oscuro */}
+                <div className="blog-content" style={{color: "white"}}>
+                    <p
+                        className="fs-5 lh-lg text-muted"
+                        style={{textAlign: "justify"}}
+                    >
+                        <ReactMarkdown>
+                            {contenido}
+
+                        </ReactMarkdown>
+                    </p>
                 </div>
-                <button className="btn btn-outline-primary mt-3" onClick={() => navigate("/blogs")}>
-                    ← Volver a blogs
-                </button>
-            </div>
+                <div className="mt-3">
+                    <Tag value="Blog" severity="info" className="me-2"/>
+                    <Tag value="Tecnología" severity="success" />
+                </div>
+            </Card>
 
 
         </div>
