@@ -7,7 +7,7 @@
     "// ---------------------- LOCAL DEV ----------------------": "",
     "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
     "client:dev": "vite",
-    "vercel-build": "npm run prisma:generate && npm run prisma:migrate && npm run seed  && concurrently \"npm run server:dev\" \"npm run client:dev\"",,
+    "vercel-build": "npm run prisma:generate && npm run prisma:migrate && npm run seed  && concurrently \"npm run server:dev\" \"npm run client:dev\"",
     "client:build": "vite build",
     "client:preview": "vite preview",
     "server:dev": "node src/server/index.js",
