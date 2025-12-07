@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLanguage } from "./LanguageProvider.jsx";
 import {useNavigate} from "react-router-dom";
+import { apiUrl } from '../config/api.js';
+import LazyImage from '../components/LazyImage.jsx';
 
 export default function CareerGrowth() {
     const [benefits, setBenefits] = useState([]);
@@ -16,8 +18,8 @@ export default function CareerGrowth() {
         const fetchData = async () => {
             try {
 
-                const benefitsRes = await fetch(`/api/benefits?lang_code=${lang}`);
-                const jobsRes = await fetch(`/api/jobs?lang_code=${lang}`);
+                const benefitsRes = await fetch(apiUrl(`/api/benefits?lang_code=${lang}`));
+                const jobsRes = await fetch(apiUrl(`/api/jobs?lang_code=${lang}`));
 
                 console.log("benefitsRes: " + benefitsRes)
                 console.log("jobsRes: " + jobsRes)
@@ -70,7 +72,7 @@ export default function CareerGrowth() {
                                         overflow: "hidden",
                                     }}
                                 >
-                                    <img
+                                    <LazyImage
                                         src={job.job.image}
                                         className="card-img-top"
                                         alt={job.title}
@@ -106,7 +108,7 @@ export default function CareerGrowth() {
                     <div className="card shadow-lg border-0 rounded-3 overflow-hidden">
                         <div className="row g-0 align-items-center">
                             <div className="col-md-4">
-                                <img
+                                <LazyImage
                                     src="/images/team-member-4.jpg"
                                     className="img-fluid h-100 w-100"
                                     alt="Miembro del Dream Team"

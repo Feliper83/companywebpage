@@ -6,7 +6,9 @@ import '../js/globalscript.js';
 import {useTranslation} from "react-i18next";
 import "../i18n";
 import {useEffect, useState} from "react";
-import {useLanguage} from "./LanguageProvider.jsx"; // inicializa las traducciones
+import {useLanguage} from "./LanguageProvider.jsx";
+import { apiUrl } from '../config/api.js';
+import LazyImage from '../components/LazyImage.jsx'; // inicializa las traducciones
 
 
 
@@ -21,7 +23,7 @@ export default function Home() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const comRes = await fetch(`/api/company?lang_code=${lang}`);
+                const comRes = await fetch(apiUrl(`/api/company?lang_code=${lang}`));
 
                 if (!comRes.ok) throw new Error("Error al obtener company");
 
@@ -61,7 +63,7 @@ export default function Home() {
     return (
         <>
             <header className="header position-relative min-vh-100 d-flex align-items-center">
-                <img
+                <LazyImage
                     src="/images/vertical-decoration-left.svg"
                     alt="Service image"
                     width={300}

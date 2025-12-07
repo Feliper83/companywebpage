@@ -1,7 +1,8 @@
-import { prisma } from '../db.js'
+import db from '../db.js'
 
 export async function fetchLanguages() {
-    return prisma.language.findMany({
-        orderBy: { code: 'asc' }
-    })
+    const result = await db.query(
+        'SELECT code, name FROM cybevite.language ORDER BY code ASC'
+    );
+    return result.rows;
 }

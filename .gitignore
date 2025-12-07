@@ -7,10 +7,21 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies
 node_modules
+
+# Build outputs
 dist
 dist-ssr
-*.local
+build
+.next
+out
+
+# Environment variables
+.env
+.env*.local
+.env.production
+.env.development
 
 # Editor directories and files
 .vscode/*
@@ -23,6 +34,36 @@ dist-ssr
 *.sln
 *.sw?
 
-/src/generated/prisma
+# OS files
+Thumbs.db
+.DS_Store
 
-/src/generated/prisma
+# Database
+*.db
+*.db-journal
+
+# Testing
+coverage
+.nyc_output
+*.lcov
+
+# Deployment
+.vercel
+.netlify
+.serverless
+.aws-sam
+.aws-sam/
+src/server/.aws-sam/
+
+# AWS & Server env
+src/server/.env
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Temporary files
+*.tmp
+*.temp
+.cache

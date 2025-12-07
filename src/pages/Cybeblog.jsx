@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useLanguage } from "../pages/LanguageProvider.jsx";
 import { useNavigate } from "react-router-dom";
+import { apiUrl } from '../config/api.js';
 
 export default function CybeBlogs() {
     const [blogs, setBlogs] = useState([]);
@@ -15,7 +16,7 @@ export default function CybeBlogs() {
     useEffect(() => {
         const fetchBlogs = async () => {
             try {
-                const res = await fetch(`/api/blogs?lang_code=${lang}`);
+                const res = await fetch(apiUrl(`/api/blogs?lang_code=${lang}`));
                 const data = await res.json();
                 setBlogs(Array.isArray(data) ? data : []);
             } catch (err) {

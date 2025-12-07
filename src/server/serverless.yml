@@ -1,0 +1,67 @@
+service: cybevite-api
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: us-east-1
+  stage: ${opt:stage, 'dev'}
+  
+  environment:
+    DATABASE_URL: ${env:DATABASE_URL}
+    NODE_ENV: production
+  
+  memorySize: 512
+  timeout: 30
+  
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - logs:CreateLogGroup
+            - logs:CreateLogStream
+            - logs:PutLogEvents
+          Resource: "arn:aws:logs:*:*:*"
+
+functions:
+  api:
+    handler: index.handler
+    events:
+      - httpApi:
+          path: /{proxy+}
+          method: ANY
+      - httpApi:
+          path: /
+          method: ANY
+
+plugins:
+  - serverless-offline
+
+package:
+  individually: false
+  excludeDevDependencies: true
+  patterns:
+    - '!.git/**'
+    - '!.aws-sam/**'
+    - '!prisma/**'
+    - '!db/**'
+    - '!seed.js'
+    - '!node_modules/**/README.md'
+    - '!node_modules/**/readme.md'
+    - '!node_modules/**/*.md'
+    - '!node_modules/**/LICENSE'
+    - '!node_modules/**/license'
+    - '!node_modules/**/.github/**'
+    - '!node_modules/**/test/**'
+    - '!node_modules/**/tests/**'
+    - '!node_modules/**/*.test.js'
+    - '!node_modules/**/*.spec.js'
+    - '!node_modules/**/*.map'
+    - '!node_modules/**/example/**'
+    - '!node_modules/**/examples/**'
+    - '!node_modules/**/docs/**'
+    - '!node_modules/**/.npmignore'
+    - '!node_modules/**/.travis.yml'
+    - '!node_modules/**/.eslintrc'
+    - '!node_modules/**/*.ts'
+    - '!node_modules/**/*.d.ts.map'

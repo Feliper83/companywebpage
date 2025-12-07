@@ -5,6 +5,7 @@ import {useTranslation} from "react-i18next";
 import {useLanguage} from "../pages/LanguageProvider.jsx";
 import {useNavigate} from "react-router-dom";
 import '../js/globalscript.js';
+import { apiUrl } from '../config/api.js';
 
 
 export default function Solutions() {
@@ -22,8 +23,8 @@ export default function Solutions() {
         const fetchData = async () => {
             try {
 
-                const srvRes = await fetch(`/api/services?lang_code=${lang}`);
-                const secRes = await fetch(`/api/sections?lang_code=${lang}&slug=services`);
+                const srvRes = await fetch(apiUrl(`/api/services?lang_code=${lang}`));
+                const secRes = await fetch(apiUrl(`/api/sections?lang_code=${lang}&slug=services`));
 
                 if (!srvRes.ok) throw new Error("Error al obtener servicios");
                 if (!secRes.ok) throw new Error("Error al obtener sections");

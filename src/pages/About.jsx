@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Image } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { useLanguage } from "./LanguageProvider.jsx";
+import { apiUrl } from '../config/api.js';
 
 export default function About() {
     const [about, setAbout] = useState([]);
@@ -12,7 +13,7 @@ export default function About() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const aboutRes = await fetch(`/api/sections?lang_code=${lang}&slug=about-us`);
+                const aboutRes = await fetch(apiUrl(`/api/sections?lang_code=${lang}&slug=about-us`));
                 if (!aboutRes.ok) throw new Error("Error al obtener about");
 
                 const aboutData = await aboutRes.json();

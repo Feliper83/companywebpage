@@ -1,18 +1,18 @@
 -- Insertar beneficios base
-INSERT INTO university.benefit DEFAULT VALUES; -- Repetir 11 veces
-INSERT INTO university.benefit DEFAULT VALUES;
-INSERT INTO university.benefit DEFAULT VALUES;
-INSERT INTO university.benefit DEFAULT VALUES;
-INSERT INTO university.benefit DEFAULT VALUES;
-INSERT INTO university.benefit DEFAULT VALUES;
-INSERT INTO university.benefit DEFAULT VALUES;
-INSERT INTO university.benefit DEFAULT VALUES;
-INSERT INTO university.benefit DEFAULT VALUES;
-INSERT INTO university.benefit DEFAULT VALUES;
-INSERT INTO university.benefit DEFAULT VALUES;
+INSERT INTO cybevite.benefit DEFAULT VALUES; -- Repetir 11 veces
+INSERT INTO cybevite.benefit DEFAULT VALUES;
+INSERT INTO cybevite.benefit DEFAULT VALUES;
+INSERT INTO cybevite.benefit DEFAULT VALUES;
+INSERT INTO cybevite.benefit DEFAULT VALUES;
+INSERT INTO cybevite.benefit DEFAULT VALUES;
+INSERT INTO cybevite.benefit DEFAULT VALUES;
+INSERT INTO cybevite.benefit DEFAULT VALUES;
+INSERT INTO cybevite.benefit DEFAULT VALUES;
+INSERT INTO cybevite.benefit DEFAULT VALUES;
+INSERT INTO cybevite.benefit DEFAULT VALUES;
 
 -- Insertar traducciones en español
-INSERT INTO university.benefit_translation (benefit_id, language, name) VALUES
+INSERT INTO cybevite.benefit_translation (benefit_id, language, name) VALUES
 (1, 'es', 'Medicina prepagada'),
 (2, 'es', 'Seguro de vida'),
 (3, 'es', 'Espacios de integración para todos'),
@@ -26,7 +26,7 @@ INSERT INTO university.benefit_translation (benefit_id, language, name) VALUES
 (11, 'es', 'Kit de bienvenida');
 
 -- Traducciones en inglés (puedes ajustar según tu preferencia)
-INSERT INTO university.benefit_translation (benefit_id, language, name) VALUES
+INSERT INTO cybevite.benefit_translation (benefit_id, language, name) VALUES
 (1, 'en', 'Private healthcare'),
 (2, 'en', 'Life insurance'),
 (3, 'en', 'Team integration spaces'),
@@ -40,19 +40,19 @@ INSERT INTO university.benefit_translation (benefit_id, language, name) VALUES
 (11, 'en', 'Welcome kit');
 
 -- Insertar trabajos base
-INSERT INTO university.job (location, skills, image) VALUES
+INSERT INTO cybevite.job (location, skills, image) VALUES
 ('Remote - LATAM', ARRAY['Swift', 'Swift UI', 'Scrum', 'Design work'], '/images/jobs/ios-developer.jpg'),
 ('Remote - LATAM', ARRAY['Java (8, 17)', 'Spring Boot', 'Microservicios', 'Angular', 'Scrum'], '/images/jobs/fullstack-engineer.jpg'),
 ('Remote - LATAM', ARRAY['Oracle 18c and 19c', 'RMAN', 'Oracle Data Guard', 'Oracle Enterprise Manager', 'DATAPUMP', 'Performance tuning', 'Scripting in bash and PL/SQL'], '/images/jobs/dba-engineer.jpg');
 
 -- Traducciones en español
-INSERT INTO university.job_translation (job_id, language, title, experience) VALUES
+INSERT INTO cybevite.job_translation (job_id, language, title, experience) VALUES
 (1, 'es', 'Desarrollador iOS', '5 años de experiencia'),
 (2, 'es', 'Ingeniero Full Stack', '10 años de experiencia'),
 (3, 'es', 'Ingeniero DBA', '4 años de experiencia');
 
 -- Traducciones en inglés
-INSERT INTO university.job_translation (job_id, language, title, experience) VALUES
+INSERT INTO cybevite.job_translation (job_id, language, title, experience) VALUES
 (1, 'en', 'iOS Developer', '5 years of experience'),
 (2, 'en', 'Full Stack Engineer', '10 years of experience'),
 (3, 'en', 'DBA Engineer', '4 years of experience');
@@ -62,12 +62,12 @@ INSERT INTO university.job_translation (job_id, language, title, experience) VAL
 
 
 -- 1. Idiomas soportados
- INSERT INTO  university.language (code, name) VALUES
+ INSERT INTO  cybevite.language (code, name) VALUES
   ('es', 'Español'),
   ('en', 'English');
 
 -- 2. Secciones
- INSERT INTO  university.section (slug, display_order) VALUES
+ INSERT INTO  cybevite.section (slug, display_order) VALUES
   ('home',        1),
   ('services',    2),
   ('about-us',    3),
@@ -76,7 +76,7 @@ INSERT INTO university.job_translation (job_id, language, title, experience) VAL
   ('contact',     6);
 
 -- 2.1 Traducciones de secciones
- INSERT INTO  university.section_translation (section_id, lang_code, title, description, cta_text) VALUES
+ INSERT INTO  cybevite.section_translation (section_id, lang_code, title, description, cta_text) VALUES
   -- Home
   (1, 'es',
       'Cybevite: Innovación Tecnológica para Empresas en Estados Unidos',
@@ -143,14 +143,14 @@ INSERT INTO university.job_translation (job_id, language, title, experience) VAL
   (6, 'en', 'Get in Touch', 'Ready to take your project to the next level? Write to us and we’ll get back to you within 24h.', 'Contact us now');
 
 -- 3. Servicios
- INSERT INTO  university.service (slug, icon_path, display_order) VALUES
+ INSERT INTO  cybevite.service (slug, icon_path, display_order) VALUES
   ('software-augumentation',     '/images/solutions/software-augmentation.jpg',     1),
   ('ai',   '/images/solutions/artificial-intelligence.jpg',   2),
   ('iam',       '/images/solutions/iam.jpg',       3),
   ('software-development',    '/images/solutions/software-development.jpg',    4);
 
 -- 3.1 Traducciones de servicios
- INSERT INTO  university.service_translation (service_id, lang_code, name, summary, details) VALUES
+ INSERT INTO  cybevite.service_translation (service_id, lang_code, name, summary, details) VALUES
   (1, 'es', 'Software Augmentation',    'Refuerza tu equipo sin frenar tu crecimiento.',
   'Los proyectos tecnológicos requieren rapidez, talento y experiencia. Nuestro servicio de Software Augmentation te conecta con ingenieros especializados en desarrollo, QA, DevOps y arquitectura de software, que se integran como parte de tu equipo remoto.
    Este modelo te permite ampliar tu capacidad de trabajo sin aumentar tus costos de contratación interna. Nos encargamos de seleccionar perfiles que se adapten a tu cultura empresarial y aporten conocimiento inmediato a los proyectos en curso.
@@ -204,25 +204,25 @@ INSERT INTO university.job_translation (job_id, language, title, experience) VAL
   'Your business is unique. Your software should be too.');
 
 -- 4. Proyectos
- INSERT INTO  university.project (slug, image_path, start_date, end_date, display_order) VALUES
+ INSERT INTO  cybevite.project (slug, image_path, start_date, end_date, display_order) VALUES
   ('ecommerce-platform', '/projects/ecommerce.jpg', '2024-01-15', '2024-06-30', 1),
   ('mobile-app',         '/projects/mobile.jpg',    '2023-09-01', '2024-02-28', 2);
 
 -- 4.1 Traducciones de proyectos
- INSERT INTO  university.project_translation (project_id, lang_code, title, description) VALUES
+ INSERT INTO  cybevite.project_translation (project_id, lang_code, title, description) VALUES
   (1, 'es', 'Plataforma de e-commerce', 'Desarrollo de tienda en línea con integración de pasarelas de pago y panel de administración.'),
   (1, 'en', 'E-commerce Platform',        'Online store development with payment gateway integration and admin dashboard.'),
   (2, 'es', 'App Móvil Corporativa',      'Aplicación nativa para iOS y Android con notificaciones push y analítica.'),
   (2, 'en', 'Corporate Mobile App',       'Native iOS & Android app with push notifications and analytics.');
 
 -- 5. Planes de precios
- INSERT INTO  university.pricing_plan (slug, display_order) VALUES
+ INSERT INTO  cybevite.pricing_plan (slug, display_order) VALUES
   ('basic',        1),
   ('professional', 2),
   ('enterprise',   3);
 
 -- 5.1 Traducciones de planes
- INSERT INTO  university.pricing_plan_translation (pricing_plan_id, lang_code, name, description, price_from) VALUES
+ INSERT INTO  cybevite.pricing_plan_translation (pricing_plan_id, lang_code, name, description, price_from) VALUES
   (1, 'es', 'Básico',      'Desarrollo de un módulo y QA básico.',           1500.00),
   (1, 'en', 'Basic',       'Single module development and basic QA.',        1500.00),
   (2, 'es', 'Profesional', 'Módulos múltiples e integraciones.',             4000.00),
@@ -231,22 +231,22 @@ INSERT INTO university.job_translation (job_id, language, title, experience) VAL
   (3, 'en', 'Enterprise',  'Custom project with 24/7 support.',              NULL);
 
 -- 6. Mensajes de contacto (ejemplos de prueba)
- INSERT INTO  university.contact_message (name, email, subject, message, received_at) VALUES
+ INSERT INTO  cybevite.contact_message (name, email, subject, message, received_at) VALUES
   ('María Pérez', 'maria@cliente.com', 'Consulta de servicios', 'Hola, me gustaría saber más sobre sus paquetes de DevOps.', '2025-05-06 10:15'),
   ('John Smith',  'john@company.com',  'Cotización Java',       'Necesito una cotización para un proyecto en Java.',       '2025-05-06 11:30');
 
 -- 7. Imágenes de contenido (opcional)
- INSERT INTO  university.content_image (section_id, project_id, image_path, caption, display_order) VALUES
+ INSERT INTO  cybevite.content_image (section_id, project_id, image_path, caption, display_order) VALUES
   (2, NULL, '/images/services-overview.jpg', 'Visión general de servicios', 1),
   (NULL, 1, '/images/ecommerce-screenshot.png', 'Interfaz de la tienda',    1);
 
-INSERT INTO university.about_section (slug, display_order) VALUES
+INSERT INTO cybevite.about_section (slug, display_order) VALUES
   ('our-mission', 1),
   ('our-team',    2);
 
 
 -- 3) Localized content for each section
-INSERT INTO university.about_section_translation (about_section_id, lang_code, title, content) VALUES
+INSERT INTO cybevite.about_section_translation (about_section_id, lang_code, title, content) VALUES
   -- Our Mission
   (1, 'en', 'Our Mission',
      'At Cybevite, our mission is to empower businesses with near-shore software solutions that accelerate growth and innovation.'),
@@ -259,18 +259,18 @@ INSERT INTO university.about_section_translation (about_section_id, lang_code, t
      'Somos un grupo diverso de ingenieros, diseñadores y estrategas comprometidos a entregar software de alta calidad a tiempo y dentro del presupuesto.');
 
 -- 4) Example images for About sections
-INSERT INTO university.content_image (about_section_id, image_path, caption, display_order) VALUES
+INSERT INTO cybevite.content_image (about_section_id, image_path, caption, display_order) VALUES
   (1, '/images/team-member-1.jpg', 'Collaborating to achieve our mission', 1),
   (2, '/images/team-member-2.jpg',    'The Cybevite team in action',     1);
 
 -- 1) Blog posts
-INSERT INTO university.blog_post (slug, author, published_at, display_order) VALUES
+INSERT INTO cybevite.blog_post (slug, author, published_at, display_order) VALUES
   ('artificial-intelligence', 'Felipe Gómez',    '2025-05-01 10:00:00', 1),
   ('cloud-computing', 'Ana López',     '2025-05-05 14:30:00', 2),
   ('cibersecurity',     'María Torres',    '2025-05-10 09:15:00', 3);
 
 -- 2) Translations for each post
-INSERT INTO university.blog_post_translation (blog_post_id, lang_code, title, content) VALUES
+INSERT INTO cybevite.blog_post_translation (blog_post_id, lang_code, title, content) VALUES
   -- Post 1: Welcome to Cybevite
   (1, 'en', 'The Silent Revolution: How Artificial Intelligence is Transforming Business',
      'Over the past five years, AI has gone from futuristic promise to an essential driver of modern organizations. Today, companies of all sizes are adopting AI solutions to boost productivity, cut costs, and deliver personalized customer experiences.
@@ -315,7 +315,7 @@ INSERT INTO university.blog_post_translation (blog_post_id, lang_code, title, co
 
 
 -- Insertar la compañía (datos generales)
-INSERT INTO university.company
+INSERT INTO cybevite.company
 (email, phone, website, address, logo_url, facebook, twitter, linkedin, instagram)
 VALUES
 (
@@ -331,7 +331,7 @@ VALUES
 );
 
 -- Insertar traducciones
-INSERT INTO university.company_translation (company_id, language, name, slogan, description)
+INSERT INTO cybevite.company_translation (company_id, language, name, slogan, description)
 VALUES
 -- Español
 (1, 'es',
