@@ -3,6 +3,7 @@ import { InputText } from "primereact/inputtext";
 import { Dropdown } from "primereact/dropdown";
 import { InputTextarea } from "primereact/inputtextarea";
 import { Button } from "primereact/button";
+import { apiUrl } from '../config/api.js';
 
 export default function JobApplicationForm() {
     const [formData, setFormData] = useState({
@@ -24,7 +25,7 @@ export default function JobApplicationForm() {
         e.preventDefault();
 
         try {
-            const response = await fetch("/api/apply", {
+            const response = await fetch(apiUrl("/api/apply"), {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

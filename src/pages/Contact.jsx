@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import {useTranslation} from "react-i18next";
+import { apiUrl } from '../config/api.js';
 
 export default function Contact() {
     const { t, i18n } = useTranslation();
@@ -14,7 +15,7 @@ export default function Contact() {
 
     // Cargar contactos al inicio
     useEffect(() => {
-        fetch("/api/contacts")
+        fetch(apiUrl("/api/contacts"))
             .then((res) => res.json())
             .then((data) => setContacts(data));
     }, []);
@@ -27,7 +28,7 @@ export default function Contact() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const res = await fetch("/api/contacts", {
+        const res = await fetch(apiUrl("/api/contacts"), {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(form),
@@ -64,7 +65,7 @@ export default function Contact() {
                     <div className="form-group">
                         <input
                             type="email"
-                            name={t("contact.email")}
+                            name="email"
                             placeholder={t("contact.email")}
                             value={form.email}
                             onChange={handleChange}

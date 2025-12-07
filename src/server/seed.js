@@ -7,7 +7,7 @@ dotenv.config();
 const { Client } = pkg;
 
 // Lee el SQL desde un archivo externo
-const sql = fs.readFileSync('./src/server/db/seed.sql', 'utf8');
+const sql = fs.readFileSync('./db/seed.sql', 'utf8');
 
 const client = new Client({
     connectionString: process.env.DATABASE_URL, // Usa tu cadena de conexión a Postgres

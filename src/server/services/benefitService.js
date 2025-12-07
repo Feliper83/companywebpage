@@ -1,15 +1,11 @@
-import { prisma } from '../db.js'
+import db from '../db.js'
 
 export async function fetchBenefitsByLang(langCode) {
-    return prisma.benefitTranslation.findMany({
-        where: {
-            language: langCode  // ✅ campo correcto
-        },
-        include: {
-            benefit: true        // ✅ incluye el modelo Benefit
-        },
-        orderBy: {
-            id: 'asc'            // ✅ puedes ordenar por id u otro campo válido
-        }
-    });
+    const result = await db.query(`
+        SELECT bt.id, bt.benefit_id, bt.language, bt.name
+        FROM cybevite.benefit_translation bt
+        WHERE bt.language = $1
+        ORDER BY bt.id ASC
+    `, [langCode]);
+    return result.rows;
 }

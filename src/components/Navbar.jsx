@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import "../i18n"; // importante para inicializar
 import { useLanguage } from  "../pages/LanguageProvider.jsx"
 import { socialLinks } from "../config/socialLinks";
+import LazyImage from './LazyImage.jsx';
 
 
 export default function Navbar() {
@@ -19,7 +20,7 @@ export default function Navbar() {
     return (
         <nav className="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
             <div className="container-fluid ps-7">
-                <img
+                <LazyImage
                     src={logo}
                     alt="Cybevite logo"
                     width={300}

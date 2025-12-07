@@ -1,4 +1,6 @@
 import express from 'express'
+import serverless from "serverless-http";
+
 import cors from 'cors'
 import sectionRoutes from './routes/sectionRoutes.js'
 import aboutRoutes from './routes/aboutRoutes.js'
@@ -15,6 +17,15 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.json({ 
+    status: 'ok', 
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || 'development'
+  })
+})
+
 app.use('/api/sections', sectionRoutes)
 app.use('/api/abouts', aboutRoutes)
 app.use('/api/contacts', contactRoutes)
@@ -26,9 +37,10 @@ app.use('/api/jobs', jobsRoutes)
 app.use('/api/apply', jobApplicationRoutes)
 app.use('/api/company', companyRoutes)
 
-//app.listen(3001, () => console.log(`Server running on port 3001`))
-const PORT = process.env.PORT || 3001
-//app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`))
 
-// Export the Express app as a serverless function
-export const handler = serverless(app);
+if (process.env.NODE_ENV !== 'lambda') {
+    const PORT = process.env.PORT || 3001
+    app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`))
+}
+
+export const handler = serverless(app)
