@@ -27,14 +27,16 @@ export default function CybeBlogs() {
         fetchBlogs();
     }, [language, i18n.language]);
 
-    const handleClick = (title, description, image) => {
+    const handleClick = (blog, image) => {
         navigate("/blog", {
             state: {
-                titulo: title,
-                contenido: description,
+                slug: blog.blog_post?.slug,
+                translations: blog.blog_post?.translations || [],
+                titulo: blog.title,
+                contenido: blog.content,
                 imagen: image,
-                autor: "Jose",
-                fecha: "08/09/2025",
+                autor: blog.blog_post?.author,
+                fecha: blog.blog_post?.published_at,
             },
         });
     };
@@ -94,13 +96,7 @@ export default function CybeBlogs() {
                                             </p>
                                             <button
                                                 className="btn btn-outline-primary mt-3"
-                                                onClick={() =>
-                                                    handleClick(
-                                                        title,
-                                                        description,
-                                                        image
-                                                    )
-                                                }
+                                                onClick={() => handleClick(blog, image)}
                                             >
                                                 {t("blogs.lookArticle")}
                                             </button>

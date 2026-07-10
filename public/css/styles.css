@@ -1,3 +1,73 @@
+/* ===================================================================
+   Paleta de marca: navy + turquesa (naranja solo para CTAs)
+   Se define aquí (carga después de bootstrap) para no tocar el vendor.
+   =================================================================== */
+:root {
+  --brand-navy: #0f1b2d;
+  --brand-teal: #12a7bd;
+  --brand-teal-dark: #0c7f91;
+  --brand-orange: #ea6a2e;
+
+  /* Acento principal del sitio -> turquesa */
+  --bs-primary: #12a7bd;
+  --bs-primary-rgb: 18, 167, 189;
+
+  /* Enlaces -> turquesa en lugar del naranja de Bootstrap */
+  --bs-link-color: #12a7bd;
+  --bs-link-color-rgb: 18, 167, 189;
+  --bs-link-hover-color: #0c7f91;
+  --bs-link-hover-color-rgb: 12, 127, 145;
+}
+
+/* Fondos oscuros en navy en lugar de negro */
+.bg-dark {
+  background-color: var(--brand-navy) !important;
+}
+
+/* Botones solidos (CTA) -> turquesa */
+.btn-primary {
+  --bs-btn-color: #ffffff;
+  --bs-btn-bg: var(--brand-teal);
+  --bs-btn-border-color: var(--brand-teal);
+  --bs-btn-hover-color: #ffffff;
+  --bs-btn-hover-bg: var(--brand-teal-dark);
+  --bs-btn-hover-border-color: var(--brand-teal-dark);
+  --bs-btn-active-color: #ffffff;
+  --bs-btn-active-bg: var(--brand-teal-dark);
+  --bs-btn-active-border-color: var(--brand-teal-dark);
+  --bs-btn-disabled-bg: var(--brand-teal);
+  --bs-btn-disabled-border-color: var(--brand-teal);
+}
+
+/* Botones secundarios (Ver, leer mas, aplicar) -> turquesa, no naranja */
+.btn-outline-primary {
+  --bs-btn-color: var(--brand-teal);
+  --bs-btn-border-color: var(--brand-teal);
+  --bs-btn-hover-color: #ffffff;
+  --bs-btn-hover-bg: var(--brand-teal);
+  --bs-btn-hover-border-color: var(--brand-teal);
+  --bs-btn-active-color: #ffffff;
+  --bs-btn-active-bg: var(--brand-teal);
+  --bs-btn-active-border-color: var(--brand-teal);
+}
+
+/* Footer: enlaces e iconos coherentes (nada de naranja suelto) */
+.footer a:not(.btn) {
+  color: #cdd8e4;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.footer a:not(.btn):hover {
+  color: var(--brand-teal);
+}
+.footer .fab {
+  color: #ffffff;
+  transition: color 0.2s ease;
+}
+.footer a:hover .fab {
+  color: var(--brand-teal);
+}
+
 .xl-text {
   font-size: 65px;
 }
@@ -169,7 +239,7 @@ body {
 .blog-content h1,
 .blog-content h2,
 .blog-content h3 {
-  color: #f97316;              /* Naranja elegante para títulos */
+  color: var(--brand-teal);    /* Turquesa de marca para títulos */
   margin-top: 1.5rem;
   margin-bottom: 1rem;
 }

@@ -2,10 +2,12 @@ import {useLocation, useNavigate } from "react-router-dom";
 import { Card } from "primereact/card";
 import { Tag } from "primereact/tag";
 import ReactMarkdown from "react-markdown";
+import { useLanguage } from "./LanguageProvider.jsx";
 
 export default function BlogContent() {
     const { state } = useLocation();
     const navigate = useNavigate();
+    const { language } = useLanguage();
 
     if (!state) {
         return (
@@ -18,7 +20,12 @@ export default function BlogContent() {
         );
     }
 
-    const { titulo, contenido, imagen, autor, fecha } = state;
+    const { imagen, autor, fecha, translations = [] } = state;
+
+    // Elegir la traduccion segun el idioma actual (reactivo al cambio de idioma)
+    const current = translations.find((tr) => tr.lang_code === language);
+    const titulo = current?.title || state.titulo;
+    const contenido = current?.content || state.contenido;
 
     const header = imagen ? (
         <img
