@@ -17,7 +17,6 @@
 ### Separación de Responsabilidades
 - `src/pages/` - Componentes de página (rutas)
 - `src/components/` - Componentes reutilizables
-- `src/banners/` - Componentes de banner/hero
 - `src/server/` - Backend API completamente separado
 - `public/` - Assets estáticos (imágenes, CSS, JS legacy)
 
@@ -41,7 +40,6 @@
 /src
   /pages          - Rutas de React
   /components     - Componentes reutilizables
-  /banners        - Banners/Heroes
   /config         - Configuración (api.js)
   /server         - Backend (separado)
     /controllers
@@ -199,7 +197,7 @@ fetch(apiUrl('/api/endpoint'))
 ### Imágenes
 - Optimizar antes de agregar a `/public/images/`
 - Usar LazyImage para lazy loading
-- Mantener backup en `/public/images-backup/`
+- No mantener carpetas de backup en el repo (usar historial de Git si se necesita recuperar una versión anterior)
 
 ### Performance
 - Assets con cache largo (31536000s = 1 año)
@@ -226,6 +224,6 @@ fetch(apiUrl('/api/endpoint'))
 
 ---
 
-**Última actualización**: 2025-12-07
+**Última actualización**: 2026-07-10
 **Stack versión**: Frontend (Vite 7 + React 19), Backend (Node 20 + Express 5), AWS (Serverless Framework)
 

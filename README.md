@@ -5,7 +5,7 @@
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-14+-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-> Modern fullstack web application for software solutions and services, featuring multilingual support (EN/ES) and serverless deployment capability.
+> Modern fullstack web application for software solutions and services, featuring multilingual support (EN/ES) and serverless deployment to AWS.
 
 ---
 
@@ -20,7 +20,6 @@
 - [Usage](#-usage)
 - [Deployment](#-deployment)
 - [API Documentation](#-api-documentation)
-- [Database Schema](#-database-schema)
 - [Project Structure](#-project-structure)
 - [Scripts](#-scripts)
 - [Contributing](#-contributing)
@@ -32,13 +31,14 @@
 
 - 🌐 **Multilingual Support** - English and Spanish (i18n with react-i18next)
 - 📱 **Responsive Design** - Mobile-first approach with Bootstrap 5 + PrimeReact
-- 🔄 **RESTful API** - Express.js backend with Prisma ORM
-- 🗄️ **PostgreSQL Database** - Robust relational database with migrations
-- ☁️ **Serverless Ready** - Deploy to AWS Lambda or Vercel
+- 🔄 **RESTful API** - Express.js backend with the `pg` PostgreSQL driver
+- 🗄️ **PostgreSQL Database** - Hosted on Neon (serverless Postgres)
+- ☁️ **Serverless Deployment** - AWS Lambda (backend) + S3/CloudFront (frontend)
+- ⚙️ **CI/CD** - Automated deploys to AWS on push to `main` via GitHub Actions
 - 📝 **Content Management** - Dynamic sections, blogs, services, and jobs
 - 💼 **Career Portal** - Job listings with application system
 - 📧 **Contact Forms** - Integrated contact and application handling
-- 🎨 **Modern UI** - Beautiful interface with Font Awesome icons and Swiper
+- 🎨 **Modern UI** - Font Awesome icons, Swiper carousels, PrimeReact components
 
 ---
 
@@ -46,24 +46,25 @@
 
 ### Frontend
 - **React 19** - UI library
-- **Vite** - Build tool and dev server
+- **Vite 7** - Build tool and dev server
 - **React Router 7** - Client-side routing
-- **i18next** - Internationalization
-- **Bootstrap 5** - CSS framework
+- **i18next / react-i18next** - Internationalization
+- **Bootstrap 5 / react-bootstrap** - CSS framework
 - **PrimeReact** - UI components
 - **Swiper** - Touch slider
 
 ### Backend
 - **Express 5** - Web framework
-- **Prisma** - ORM and database toolkit
-- **PostgreSQL** - Relational database
-- **serverless-http** - Serverless adapter
+- **pg** - PostgreSQL driver (no ORM)
+- **PostgreSQL (Neon)** - Relational database
+- **serverless-http** - Adapter to run Express on AWS Lambda
 - **CORS** - Cross-origin resource sharing
 
 ### DevOps
-- **AWS Lambda** - Serverless compute
-- **Vercel** - Frontend hosting (optional)
-- **Serverless Framework** - Deployment automation
+- **AWS Lambda** - Serverless compute for the API
+- **AWS S3 + CloudFront** - Static hosting and CDN for the frontend
+- **Serverless Framework** - Backend deployment automation
+- **GitHub Actions** - CI/CD (see `.github/workflows/deploy.yml`)
 
 ---
 
@@ -72,8 +73,8 @@
 ```
 ┌─────────────────────────────────────────┐
 │  FRONTEND (React SPA)                   │
-│  - Vite Dev Server (Port 5173)         │
-│  - Production: Static files             │
+│  - Vite Dev Server (Port 5173+)         │
+│  - Production: S3 + CloudFront          │
 └─────────────────────────────────────────┘
               ↓ HTTP/REST
 ┌─────────────────────────────────────────┐
@@ -81,11 +82,11 @@
 │  - Local: Port 3001                     │
 │  - Production: AWS Lambda               │
 └─────────────────────────────────────────┘
-              ↓ Prisma ORM
+              ↓ pg (node-postgres)
 ┌─────────────────────────────────────────┐
 │  DATABASE (PostgreSQL)                  │
 │  - Development: Local instance          │
-│  - Production: AWS RDS / Neon           │
+│  - Production: Neon PostgreSQL          │
 └─────────────────────────────────────────┘
 ```
 
@@ -97,7 +98,7 @@ Before you begin, ensure you have the following installed:
 
 - **Node.js** >= 20.19.0 or >= 22.12.0
 - **npm** >= 10.8.2
-- **PostgreSQL** >= 14.0
+- **PostgreSQL** >= 14.0 (for local development)
 - **Git**
 
 ---
@@ -107,7 +108,7 @@ Before you begin, ensure you have the following installed:
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/cybevite.git
+git clone https://github.com/Feliper83/companywebpage.git
 cd cybevite
 ```
 
@@ -115,35 +116,19 @@ cd cybevite
 
 ```bash
 npm install
+cd src/server && npm install && cd ../..
 ```
 
 ### 3. Set up environment variables
 
-Create a `.env` file in the root directory:
+Copy `env.example.txt` to `.env` in the project root and to `src/server/.env`, then fill in the values (database connection string, API URL, etc).
 
-```env
-# Database
-DATABASE_URL="postgresql://user:password@localhost:5432/cybevite?schema=public"
-
-# Server
-PORT=3001
-NODE_ENV=development
-
-# Optional: For production
-AWS_REGION=us-east-1
-```
-
-### 4. Initialize database
+### 4. Initialize the database
 
 ```bash
-# Generate Prisma Client
-npm run prisma:generate
-
-# Run migrations
-npm run prisma:migrate
-
-# Seed initial data
-npm run seed
+cd src/server
+npm run seed          # loads db/seed.sql
+cd ../..
 ```
 
 ---
@@ -152,10 +137,10 @@ npm run seed
 
 ### Database Configuration
 
-Update your `DATABASE_URL` in `.env`:
+Set `DATABASE_URL` in `src/server/.env`:
 
 ```env
-DATABASE_URL="postgresql://USERNAME:PASSWORD@HOST:PORT/DATABASE?schema=SCHEMA"
+DATABASE_URL="postgresql://USERNAME:PASSWORD@HOST:PORT/DATABASE?sslmode=require"
 ```
 
 ### Vite Proxy Configuration
@@ -185,7 +170,7 @@ npm run dev
 ```
 
 This runs:
-- Frontend: `http://localhost:5173`
+- Frontend: `http://localhost:5173` (Vite picks the next free port if busy)
 - Backend: `http://localhost:3001`
 
 **Start services separately:**
@@ -196,19 +181,6 @@ npm run server:dev
 # Frontend only
 npm run client:dev
 ```
-
-### First-time Setup
-
-Run this on first clone or after schema changes:
-```bash
-npm run start:all
-```
-
-This will:
-1. Generate Prisma client
-2. Run database migrations
-3. Seed initial data
-4. Start both servers
 
 ### Production Build
 
@@ -224,44 +196,7 @@ npm run client:preview
 
 ## 🌐 Deployment
 
-### Deploy to AWS Lambda (Backend)
-
-1. Install Serverless Framework:
-```bash
-npm install -g serverless
-```
-
-2. Configure AWS credentials:
-```bash
-aws configure
-```
-
-3. Update `src/server/serverless.yml` with your database URL
-
-4. Deploy:
-```bash
-cd src/server
-serverless deploy
-```
-
-### Deploy Frontend to Vercel
-
-1. Install Vercel CLI:
-```bash
-npm install -g vercel
-```
-
-2. Deploy:
-```bash
-vercel
-```
-
-### Deploy to AWS Amplify
-
-1. Connect your GitHub repository to AWS Amplify
-2. Configure build settings:
-   - Build command: `npm run client:build`
-   - Output directory: `dist`
+Production deploys are automated: every push to `main` triggers `.github/workflows/deploy.yml`, which deploys the backend (Lambda) and then the frontend (S3 + CloudFront invalidation). See [DEPLOYMENT.md](DEPLOYMENT.md) for the full guide, manual deploy steps, and rollback instructions.
 
 ---
 
@@ -269,58 +204,23 @@ vercel
 
 ### Base URL
 - Development: `http://localhost:3001/api`
-- Production: `https://your-api-url.com/api`
+- Production: see `VITE_API_URL` / API Gateway URL from the Lambda deploy
 
 ### Endpoints
 
-#### Sections
 ```http
-GET /api/sections?lang_code=en&slug=home
-```
-
-#### Services
-```http
-GET /api/services?lang_code=es
-```
-
-#### Blogs
-```http
-GET /api/blogs?lang_code=en
-GET /api/blogs/:slug?lang_code=en
-```
-
-#### Jobs
-```http
-GET /api/jobs?lang_code=en
+GET  /api/sections?lang_code=en
+GET  /api/abouts?lang_code=en
+GET  /api/services?lang_code=en
+GET  /api/blogs?lang_code=en
+GET  /api/languages
+GET  /api/benefits?lang_code=en
+GET  /api/jobs?lang_code=en
 POST /api/apply
-```
-
-#### Contact
-```http
+GET  /api/company?lang_code=en
+GET  /api/contacts
 POST /api/contacts
 ```
-
-#### Company Info
-```http
-GET /api/company?lang_code=en
-```
-
----
-
-## 🗄️ Database Schema
-
-Key models:
-
-- **Language** - Supported languages (en, es)
-- **Section** - Page sections with translations
-- **Service** - Services offered
-- **BlogPost** - Blog articles
-- **Job** - Job openings
-- **JobApplication** - Job applications
-- **Company** - Company information
-- **ContactMessage** - Contact form submissions
-
-See `prisma/schema.prisma` for complete schema.
 
 ---
 
@@ -330,34 +230,28 @@ See `prisma/schema.prisma` for complete schema.
 cybevite/
 ├── public/                 # Static assets
 │   ├── images/            # Images and media
-│   ├── css/               # Global styles
-│   └── js/                # External scripts
+│   ├── css/                # Global styles
+│   ├── js/                 # External scripts
+│   └── webfonts/           # Font Awesome fonts
 ├── src/
-│   ├── assets/            # React assets
-│   ├── banners/           # Banner components
-│   ├── components/        # Reusable components
-│   │   ├── Navbar.jsx
-│   │   └── Footer.jsx
-│   ├── pages/             # Page components
-│   │   ├── Home.jsx
-│   │   ├── About.jsx
-│   │   ├── Solutions.jsx
-│   │   ├── CareerGrowth.jsx
-│   │   └── ...
-│   ├── server/            # Backend code
-│   │   ├── controllers/   # Request handlers
-│   │   ├── services/      # Business logic
-│   │   ├── routes/        # API routes
-│   │   ├── prisma/        # Prisma schema
-│   │   ├── db.js          # Database connection
-│   │   └── index.js       # Server entry point
-│   ├── config/            # Configuration files
-│   ├── i18n.js            # Internationalization setup
-│   ├── App.jsx            # Main App component
-│   └── main.jsx           # React entry point
-├── prisma/
-│   └── schema.prisma      # Database schema
-├── dist/                  # Production build
+│   ├── assets/             # React assets
+│   ├── components/         # Reusable components (Navbar, Footer, LazyImage)
+│   ├── pages/               # Page components (Home, About, Solutions, ...)
+│   ├── config/              # Configuration (api.js, socialLinks.js)
+│   ├── js/                  # Legacy scripts loaded by pages
+│   ├── server/               # Backend code
+│   │   ├── controllers/     # Request handlers
+│   │   ├── services/        # Business logic
+│   │   ├── routes/          # API routes
+│   │   ├── db/               # SQL seed/migration files
+│   │   ├── db.js             # Database connection (pg Pool)
+│   │   ├── serverless.yml    # Serverless Framework config
+│   │   └── index.js          # Server entry point
+│   ├── i18n.js               # Internationalization setup
+│   ├── App.jsx                # Main App component
+│   └── main.jsx                # React entry point
+├── .github/workflows/deploy.yml  # CI/CD pipeline
+├── dist/                   # Production build (generated, not committed)
 ├── package.json
 ├── vite.config.js
 └── README.md
@@ -372,7 +266,6 @@ cybevite/
 npm run dev              # Start both servers
 npm run client:dev       # Start frontend only
 npm run server:dev       # Start backend only
-npm run start:all        # Full setup + start
 ```
 
 ### Build
@@ -383,15 +276,14 @@ npm run client:preview   # Preview production build
 
 ### Database
 ```bash
-npm run prisma:generate  # Generate Prisma Client
-npm run prisma:migrate   # Run migrations
-npm run db:reset         # Reset database
-npm run seed             # Seed data
+npm run seed               # Seed data (src/server/seed.js)
+npm run migrate:services   # Run services migration
 ```
 
 ### Utilities
 ```bash
-npm run lint             # Run ESLint
+npm run lint              # Run ESLint
+npm run backend:offline   # Run serverless offline for local Lambda testing
 ```
 
 ---
@@ -405,6 +297,8 @@ Contributions are welcome! Please follow these steps:
 3. Commit your changes (`git commit -m 'Add amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
+
+See [REGLAS-DE-ORO.md](REGLAS-DE-ORO.md) for project conventions and code patterns.
 
 ---
 
@@ -431,7 +325,6 @@ For support, email support@cybevite.com or open an issue on GitHub.
 - [ ] Add authentication (JWT)
 - [ ] Implement admin dashboard
 - [ ] Add unit tests
-- [ ] CI/CD pipeline
 - [ ] Docker containerization
 - [ ] API rate limiting
 - [ ] Email notifications

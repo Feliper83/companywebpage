@@ -2,6 +2,8 @@
 
 Complete step-by-step guide to deploy Cybevite to AWS.
 
+> **Note:** Production deploys are automated via GitHub Actions (`.github/workflows/deploy.yml`) on every push to `main`. The manual steps below are for local/dev deploys, troubleshooting, and rollback — see [CI/CD Setup](#cicd-setup) for the automated path.
+
 ## Prerequisites
 
 - [x] AWS Account with admin access
@@ -76,12 +78,6 @@ cd ../..
 
 ### 2.4 Deploy Backend
 
-**Option A: Using script (recommended)**
-```powershell
-.\deploy-backend.ps1 -Stage prod
-```
-
-**Option B: Manual**
 ```bash
 cd src/server
 serverless deploy --stage prod
@@ -117,57 +113,53 @@ If deploying to production, update the proxy or create environment-specific conf
 
 ### 3.2 Deploy to S3
 
-**Option A: Using script (recommended)**
-```powershell
-.\deploy-s3.ps1 -BucketName "cybevite-prod" -Region "us-east-1"
-```
-
-**Option B: Manual**
 ```bash
 # Build
 npm run client:build
 
 # Create bucket
-aws s3 mb s3://cybevite-prod --region us-east-1
+aws s3 mb s3://cybevite-frontend-prod --region us-east-1
 
 # Configure static hosting
-aws s3 website s3://cybevite-prod \
+aws s3 website s3://cybevite-frontend-prod \
   --index-document index.html \
   --error-document index.html
 
 # Upload files
-aws s3 sync dist/ s3://cybevite-prod --delete
+aws s3 sync dist/ s3://cybevite-frontend-prod --delete
 
 # Make public
-aws s3api put-bucket-policy --bucket cybevite-prod --policy '{
+aws s3api put-bucket-policy --bucket cybevite-frontend-prod --policy '{
   "Version": "2012-10-17",
   "Statement": [{
     "Sid": "PublicReadGetObject",
     "Effect": "Allow",
     "Principal": "*",
     "Action": "s3:GetObject",
-    "Resource": "arn:aws:s3:::cybevite-prod/*"
+    "Resource": "arn:aws:s3:::cybevite-frontend-prod/*"
   }]
 }'
 ```
 
 ### 3.3 Access Your Site
 
-Your site is now live at:
+The production site is live behind CloudFront at the custom domain (see `docs/archive/DOMINIO-COMPLETADO.md`). The raw S3 website endpoint (fallback only):
 ```
-http://cybevite-prod.s3-website-us-east-1.amazonaws.com
+http://cybevite-frontend-prod.s3-website-us-east-1.amazonaws.com
 ```
 
 ---
 
-## Phase 4: CloudFront Setup (Optional but Recommended)
+## Phase 4: CloudFront Setup
+
+> Already configured for production (Distribution ID `E1JZ844ZWDOEY2`, custom domain `cybevite.com`). Steps below are for reference or setting up a new environment.
 
 ### 4.1 Create CloudFront Distribution
 
 1. Go to AWS Console → CloudFront
 2. Click "Create Distribution"
 3. Configure:
-   - **Origin domain**: `cybevite-prod.s3-website-us-east-1.amazonaws.com`
+   - **Origin domain**: `cybevite-frontend-prod.s3-website-us-east-1.amazonaws.com`
    - **Origin protocol**: HTTP only (S3 website endpoint)
    - **Viewer protocol policy**: Redirect HTTP to HTTPS
    - **Allowed HTTP methods**: GET, HEAD, OPTIONS, PUT, POST, PATCH, DELETE
@@ -187,14 +179,9 @@ This is needed for SPA routing to work correctly.
 - **Distribution ID**: `E1234ABCD5678` (save this)
 - **CloudFront URL**: `https://d111111abcdef8.cloudfront.net`
 
-### 4.4 Update Deploy Script
+### 4.4 Configure Cache Invalidation
 
-Edit `deploy-s3.ps1` line 7:
-```powershell
-[string]$DistributionId = "E1234ABCD5678"
-```
-
-Now future deploys will automatically invalidate the cache.
+Set the Distribution ID as the `CLOUDFRONT_DISTRIBUTION_ID` repo secret so the CI/CD pipeline invalidates the cache on every deploy (see [CI/CD Setup](#cicd-setup)).
 
 ---
 
@@ -301,25 +288,7 @@ Monitor:
 
 ## Updating the Application
 
-### Update Backend
-
-```powershell
-# Make changes to src/server/
-.\deploy-backend.ps1 -Stage prod
-```
-
-### Update Frontend
-
-```powershell
-# Make changes to src/
-.\deploy-s3.ps1 -BucketName "cybevite-prod"
-```
-
-### Quick Update Both
-
-```bash
-npm run deploy:all
-```
+Push to `main` and the CI/CD pipeline (see [CI/CD Setup](#cicd-setup)) redeploys backend and frontend automatically. For a manual deploy from a local machine, repeat [Phase 2](#phase-2-backend-deployment-lambda) and/or [Phase 3](#phase-3-frontend-deployment-s3).
 
 ---
 
@@ -342,9 +311,16 @@ If S3 versioning is enabled:
 
 ---
 
-## CI/CD Setup (Optional)
+## CI/CD Setup
 
-For automated deployments on git push, see GitHub Actions example in `.github/workflows/deploy.yml` (to be created).
+Automated deployments are configured in `.github/workflows/deploy.yml`. Every push to `main` triggers:
+
+1. `deploy-backend` — installs `src/server` deps and runs `serverless deploy --stage prod`.
+2. `deploy-frontend` (after backend succeeds) — builds the client, syncs `dist/` to S3, and invalidates the CloudFront cache.
+
+AWS credentials are obtained via OIDC role assumption (`secrets.AWS_ROLE_ARN`), not long-lived keys. Required repo secrets: `AWS_ROLE_ARN`, `DATABASE_URL`, `SERVERLESS_ACCESS_KEY`, `VITE_API_URL`, `S3_BUCKET_NAME`, `CLOUDFRONT_DISTRIBUTION_ID`.
+
+To deploy to a different stage manually, use the workflow's `workflow_dispatch` trigger (GitHub → Actions → Deploy to AWS → Run workflow) with a custom `stage` input.
 
 ---
 
@@ -362,9 +338,9 @@ For automated deployments on git push, see GitHub Actions example in `.github/wo
 
 ## Next Steps
 
-- [ ] Set up custom domain with Route 53
-- [ ] Configure SSL certificate with ACM
-- [ ] Set up CI/CD with GitHub Actions
+- [x] Set up custom domain (see `docs/archive/DOMINIO-COMPLETADO.md`)
+- [x] Configure SSL certificate with ACM (see `docs/archive/SSL-CERTIFICATE-VALIDATION.md`)
+- [x] Set up CI/CD with GitHub Actions
 - [ ] Configure CloudWatch alarms
 - [ ] Set up automated backups
 - [ ] Implement monitoring dashboard
@@ -391,5 +367,5 @@ For issues:
 
 ---
 
-Last updated: 2025
+Last updated: 2026-07-10
 

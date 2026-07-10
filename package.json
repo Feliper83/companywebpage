@@ -13,11 +13,6 @@
     "// ===== DATABASE =====": "",
     "seed": "cd src/server && node seed.js",
     "migrate:services": "cd src/server && node migrate-services.js",
-    "// ===== AWS DEPLOYMENT =====": "",
-    "deploy:backend": "pwsh -File deploy-backend.ps1 -Stage prod",
-    "deploy:backend:dev": "pwsh -File deploy-backend.ps1 -Stage dev",
-    "deploy:frontend": "pwsh -File deploy-s3.ps1",
-    "deploy:aws": "npm run client:build && npm run deploy:backend && npm run deploy:frontend",
     "// ===== TESTING =====": "",
     "backend:offline": "cd src/server && serverless offline start",
     "lint": "eslint ."
