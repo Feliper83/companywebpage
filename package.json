@@ -13,6 +13,7 @@
     "// ===== DATABASE =====": "",
     "seed": "cd src/server && node seed.js",
     "migrate:services": "cd src/server && node migrate-services.js",
+    "migrate:languages": "cd src/server && node db/add-languages.js",
     "// ===== TESTING =====": "",
     "backend:offline": "cd src/server && serverless offline start",
     "lint": "eslint ."
