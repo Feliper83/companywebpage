@@ -44,7 +44,7 @@ jobs:
         working-directory: src/server
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: npx serverless deploy --stage ${{ env.STAGE }}
+        run: npx --yes serverless@3 deploy --stage ${{ env.STAGE }}
 
   deploy-frontend:
     needs: deploy-backend

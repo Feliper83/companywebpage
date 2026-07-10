@@ -15,7 +15,6 @@
   },
   "devDependencies": {
     "@types/node": "^24.7.1",
-    "serverless": "^3.40.0",
     "serverless-offline": "^14.4.0"
   },
   "keywords": [],
