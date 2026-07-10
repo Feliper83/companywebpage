@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       script:
-        description: 'Script a correr dentro de src/server (ej: create-blog-retail.js)'
+        description: 'Script a correr dentro de src/server (ej: db/add-languages.js)'
         required: true
-        default: 'create-blog-retail.js'
+        default: 'db/add-languages.js'
 
 permissions:
   contents: read
